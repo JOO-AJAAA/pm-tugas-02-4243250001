@@ -12,7 +12,6 @@ void main() {
   print('============================================================');
   print('                        KATALOG TOKO                        ');
   print('============================================================');
-  // TODO 1: tampilkan katalog sebagai tabel rapi (kode, nama, harga) dengan padRight/padLeft
   print('${'Kode'.padRight(6)} | ${'Nama Produk'.padRight(25)} | ${'Harga'.padLeft(10)}');
   print('------------------------------------------------------------');
   katalog.forEach((kode, produk) {
@@ -23,12 +22,10 @@ void main() {
   stdout.write('Pesanan (contoh: P01x2, P03x1): ');
   final String input = stdin.readLineSync() ?? '';
 
-  // Penampung data proses pembacaan pesanan
   final List<String> itemDitolak = [];
   final Set<String> kategoriDibeli = {};
   final List<({String kode, String nama, int harga, int jumlah})> daftarItemValid = [];
 
-  // TODO 2: pecah input dengan split(',') lalu split('x') untuk tiap item
   final List<String> mentahItems = input.split(',');
 
   for (var item in mentahItems) {
@@ -44,16 +41,14 @@ void main() {
     final String kode = parts[0].trim();
     final String jmlStr = parts[1].trim();
     
-    // TODO 3: cari produk dengan katalog[kode]. Hasilnya NULLABLE: tangani tanpa crash
     final int? jumlah = int.tryParse(jmlStr);
-    final var produk = katalog[kode];
+    final produk = katalog[kode];
 
     if (jumlah == null || jumlah <= 0 || produk == null) {
       itemDitolak.add(cleanItem);
       continue;
     }
 
-    // Jika valid, masukkan ke daftar item valid dan simpan kategorinya
     kategoriDibeli.add(produk.kategori);
     daftarItemValid.add((
       kode: kode,
@@ -63,14 +58,12 @@ void main() {
     ));
   }
 
-  // TODO 4: hitung subtotal tiap item (map) dan total (fold); beri diskon 10% jika total >= 100000
   final List<int> daftarSubtotal = daftarItemValid.map((item) => item.harga * item.jumlah).toList();
   final int totalSebelumDiskon = daftarSubtotal.fold<int>(0, (sum, subtotal) => sum + subtotal);
   
   final int diskon = totalSebelumDiskon >= 100000 ? (totalSebelumDiskon * 0.1).round() : 0;
   final int totalBayar = totalSebelumDiskon - diskon;
 
-  // TODO 5: cetak struk, Set kategori produk yang dibeli, dan daftar item yang ditolak
   print('\n============================================================');
   print('                       STRUK BELANJA                        ');
   print('============================================================');
@@ -93,7 +86,6 @@ void main() {
     print('Kategori produk yang dibeli: ${kategoriDibeli.join(', ')}');
   }
 
-  // Menampilkan item yang ditolak (jika ada)
   if (itemDitolak.isNotEmpty) {
     print('------------------------------------------------------------');
     print('⚠️ Item ditolak/tidak valid: ${itemDitolak.join(', ')}');
