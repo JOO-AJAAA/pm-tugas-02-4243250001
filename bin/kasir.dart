@@ -12,10 +12,14 @@ void main() {
   print('============================================================');
   print('                        KATALOG TOKO                        ');
   print('============================================================');
-  print('${'Kode'.padRight(6)} | ${'Nama Produk'.padRight(25)} | ${'Harga'.padLeft(10)}');
+  print(
+    '${'Kode'.padRight(6)} | ${'Nama Produk'.padRight(25)} | ${'Harga'.padLeft(10)}',
+  );
   print('------------------------------------------------------------');
   katalog.forEach((kode, produk) {
-    print('${kode.padRight(6)} | ${produk.nama.padRight(25)} | Rp${produk.harga.toString().padLeft(8)}');
+    print(
+      '${kode.padRight(6)} | ${produk.nama.padRight(25)} | Rp${produk.harga.toString().padLeft(8)}',
+    );
   });
   print('============================================================\n');
 
@@ -24,7 +28,8 @@ void main() {
 
   final List<String> itemDitolak = [];
   final Set<String> kategoriDibeli = {};
-  final List<({String kode, String nama, int harga, int jumlah})> daftarItemValid = [];
+  final List<({String kode, String nama, int harga, int jumlah})>
+  daftarItemValid = [];
 
   final List<String> mentahItems = input.split(',');
 
@@ -40,7 +45,7 @@ void main() {
 
     final String kode = parts[0].trim();
     final String jmlStr = parts[1].trim();
-    
+
     final int? jumlah = int.tryParse(jmlStr);
     final produk = katalog[kode];
 
@@ -58,30 +63,43 @@ void main() {
     ));
   }
 
-  final List<int> daftarSubtotal = daftarItemValid.map((item) => item.harga * item.jumlah).toList();
-  final int totalSebelumDiskon = daftarSubtotal.fold<int>(0, (sum, subtotal) => sum + subtotal);
-  
-  final int diskon = totalSebelumDiskon >= 100000 ? (totalSebelumDiskon * 0.1).round() : 0;
+  final List<int> daftarSubtotal = daftarItemValid
+      .map((item) => item.harga * item.jumlah)
+      .toList();
+  final int totalSebelumDiskon = daftarSubtotal.fold<int>(
+    0,
+    (sum, subtotal) => sum + subtotal,
+  );
+
+  final int diskon = totalSebelumDiskon >= 100000
+      ? (totalSebelumDiskon * 0.1).round()
+      : 0;
   final int totalBayar = totalSebelumDiskon - diskon;
 
   print('\n============================================================');
   print('                       STRUK BELANJA                        ');
   print('============================================================');
-  
+
   if (daftarItemValid.isEmpty) {
     print('Tidak ada pesanan valid yang diproses.');
   } else {
     for (int i = 0; i < daftarItemValid.length; i++) {
       final item = daftarItemValid[i];
       final subtotal = daftarSubtotal[i];
-      print('${item.nama.padRight(25)} x ${item.jumlah.toString().padRight(3)} : Rp${subtotal.toString().padLeft(8)}');
+      print(
+        '${item.nama.padRight(25)} x ${item.jumlah.toString().padRight(3)} : Rp${subtotal.toString().padLeft(8)}',
+      );
     }
     print('------------------------------------------------------------');
-    print('${'Total Awal'.padRight(31)} : Rp${totalSebelumDiskon.toString().padLeft(8)}');
+    print(
+      '${'Total Awal'.padRight(31)} : Rp${totalSebelumDiskon.toString().padLeft(8)}',
+    );
     if (diskon > 0) {
       print('${'Diskon 10%'.padRight(31)} : Rp${diskon.toString().padLeft(8)}');
     }
-    print('${'Total Bayar'.padRight(31)} : Rp${totalBayar.toString().padLeft(8)}');
+    print(
+      '${'Total Bayar'.padRight(31)} : Rp${totalBayar.toString().padLeft(8)}',
+    );
     print('------------------------------------------------------------');
     print('Kategori produk yang dibeli: ${kategoriDibeli.join(', ')}');
   }
